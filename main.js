@@ -16,7 +16,7 @@ module.exports.loop = function () {
     for (var spawn in Game.spawns) {
         var sources = Game.spawns[spawn].room.find(FIND_SOURCES, {
             filter: (source) => {
-                return Memory.sources[source.id];
+                return !Memory.sources[source.id];
             }
         });
         for (var sourceIndex = 0; sourceIndex < sources.length; sourceIndex++) {
