@@ -28,7 +28,7 @@ module.exports.loop = function () {
                         var position = Game.spawns[spawn].room.lookAt(sources[sourceIndex].pos.x + i, sources[sourceIndex].pos.y + j)
                         if (_.findIndex(position, {
                                 type: "wall"
-                            }) > -1) Memory.sources[sources[sourceIndex].id].freeTiles;
+                            }) > -1) Memory.sources[sources[sourceIndex].id].freeTiles++;
                     }
                 }
             }
