@@ -15,7 +15,11 @@ var roleHauler = {
                     creep.memory.currentTicket=Memory.haulerQueue[i];
                     creep.memory.currentTicket.creepHauler=creep;
                     Memory.haulerQueue.splice(i,1);
+                    break;
                 }
+            }
+            if(!creep.memory.currentTicket) {
+                var containers //todo
             }
         }
 

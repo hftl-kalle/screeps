@@ -3,7 +3,8 @@ var roleMiner = {
     /** @param {Creep} creep **/
     run: function (creep) {
         var queueCapacity =0.7;
-        if(creep.carry.energy>= creep.carryCapacity*queueCapacity && !creep.memory.queueTicket){
+        var containerAtPos=_.findIndex(creep.memory.assignedRoom.lookAt(creep.pos.x,creep.pos.y),{ type: 'structure', structure: STRUCTURE_CONTAINER });
+        if(creep.carry.energy>= creep.carryCapacity*queueCapacity && !creep.memory.queueTicket && containerAtPos==-1){
          creep.memory.queueTicket={creepRaiser:creep,creepHauler:null,haulerAction:"take"}
          Memory.haulerQueue.push(creep.memory.queueTicket);
         }

@@ -33,6 +33,11 @@ var roleSpawner = {
         };
 
         var sumHarvester = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
+        var sumMiner = _.sum(Game.creeps, (c) => c.memory.role == 'miner');
+        var sumHauler = _.sum(Game.creeps, (c) => c.memory.role == 'hauler');
+        var sumUpgrader = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
+        var sumBuilder = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
+
         var nonFullExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
             filter: (structure) => {
                 if (structure.structureType == STRUCTURE_EXTENSION) return structure.energy < structure.energyCapacity;
@@ -40,7 +45,9 @@ var roleSpawner = {
             }
         });
 
-        if (Object.keys(Game.creeps).length <= Memory.maxCreeps && spawn.energy == spawn.energyCapacity && !spawn.spawning && nonFullExtensions.length == 0) {
+        if (Object.keys(Game.creeps).length <= Memory.maxCreeps && spawn.energy == spawn.energyCapacity && !spawn.spawning && spawn.room.energyAvailable == spawn.room.energyCapacityAvailable) {
+            
+
             var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
             spawn.spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE], 'Worker' + Game.time, {
                 memory: {
