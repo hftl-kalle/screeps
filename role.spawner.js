@@ -2,6 +2,27 @@ var roleSpawner = {
 
     /** @param {Creep} creep **/
     run: function (spawn) {
+        var roles = {
+            upgrader: {
+                MOVE: 1,
+                CARRY: 1,
+                WORK: "x"
+            },
+            builder: {
+                MOVE: 1,
+                CARRY: 1,
+                WORK: "x"
+            },
+            miner: {
+                MOVE: 1,
+                CARRY: 1,
+                WORK: "x"
+            },
+            hauler: {
+                MOVE: 1,
+                CARRY: "x"
+            }
+        };
 
         var sumHarvester = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
         var nonFullExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
