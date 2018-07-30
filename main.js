@@ -13,7 +13,7 @@ module.exports.loop = function () {
 
     // set number of available spots for miners on all sources
     for (var spawn in Game.spawns) {
-        var sources = spawn.room.find(FIND_SOURCES, {
+        var sources = Game.spawns[spawn].room.find(FIND_SOURCES, {
             filter: (source) => {
                 return !source.memory.freeSpaces
             }
@@ -23,7 +23,7 @@ module.exports.loop = function () {
             for (var i = -1; i < 2; i++) {
                 for (var j = -1; j < 2; j++) {
                     if (j != 0 && i != 0) {
-                        var position = spawn.room.lookAt(source[sourceIndex].pos.x + i, source[sourceIndex].pos.y + j)
+                        var position = Game.spawns[spawn].room.lookAt(source[sourceIndex].pos.x + i, source[sourceIndex].pos.y + j)
                         if (_.findIndex(position, {
                                 type: "wall"
                             }) > -1) source.memory.freeSpaces++
