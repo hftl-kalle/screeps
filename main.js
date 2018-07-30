@@ -24,11 +24,14 @@ module.exports.loop = function () {
             Memory.sources[sources[sourceIndex].id].freeTiles = 0;
             for (var i = -1; i < 2; i++) {
                 for (var j = -1; j < 2; j++) {
-                    if (j != 0 && i != 0) {
+                    if (!(j == 0 && i == 0)) {
                         var position = Game.spawns[spawn].room.lookAt(sources[sourceIndex].pos.x + i, sources[sourceIndex].pos.y + j)
                         if (_.findIndex(position, {
-                                type: "wall"
-                            }) > -1) Memory.sources[sources[sourceIndex].id].freeTiles++;
+                                type: "terrain",
+                                terrain: "wall"
+                            }) == -1) {
+                            Memory.sources[sources[sourceIndex].id].freeTiles++;
+                        }
                     }
                 }
             }
