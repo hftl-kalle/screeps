@@ -11,6 +11,27 @@ module.exports.loop = function () {
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
     if (!Memory.haulerQueue) Memory.haulerQueue = [];
 
+    // set number of available spots for miners on all sources
+    for (var spawn in Game.spawns) {
+        var sources = spawn.room.find(FIND_SOURCES, {
+            filter: (source) => {
+                return !source.memory.freeSpaces
+            }
+        });
+        for (var sourceIndex = 0; sourceIndex < sources.length; sourceIndex++) {
+            source.memory.freeSpaces = 0;
+            for (var i = -1; i < 2; i++) {
+                for (var j = -1; j < 2; j++) {
+                    if (j != 0 && i != 0) {
+                        var position = spawn.room.lookAt(source[sourceIndex].pos.x + i, source[sourceIndex].pos.y + j)
+                        if (_.findIndex(position, {
+                                type: "wall"
+                            }) > -1) source.memory.freeSpaces++
+                    }
+                }
+            }
+        }
+    }
     // delete died creeps from memory
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
