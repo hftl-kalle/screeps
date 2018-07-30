@@ -3,7 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleSpawner = require('role.spawner');
 
-// initial git commit
+// test commit for creds
 module.exports.loop = function () {
     // declare gobals
     Memory.maxCreeps = 11;
