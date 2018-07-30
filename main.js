@@ -2,6 +2,9 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleSpawner = require('role.spawner');
+var roleHauler = require('role.hauler');
+var roleMiner = require('role.miner');
+var roleExtention = require('role.extension');
 
 // test commit for creds
 module.exports.loop = function () {
@@ -47,6 +50,15 @@ module.exports.loop = function () {
     // set all roles to units
     roleSpawner.run(Game.spawns["Spawn1"]);
 
+    var extensions=Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_EXTENSION);
+        }
+    });
+    for(var i=0; i<extensions.length; i++){
+        roleExtention.run(extensions[i]);
+    }
+
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         creep.memory.assignedRoom = Game.spawns["Spawn1"].room;
@@ -58,6 +70,12 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
+        }
+        if (creep.memory.role == 'hauler') {
+            roleHauler.run(creep);
+        }
+        if (creep.memory.role == 'miner') {
+            roleMiner.run(creep);
         }
     }
 

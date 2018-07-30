@@ -2,33 +2,24 @@ var roleMiner = {
 
     /** @param {Creep} creep **/
     run: function (creep) {
-
-        if (creep.memory.upgrading && creep.carry.energy == 0) {
-            creep.memory.upgrading = false;
-            creep.say('?? harvest');
-        }
-        if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            creep.say('? upgrade');
+        var queueCapacity =0.7;
+        if(creep.carry.energy>= creep.carryCapacity*queueCapacity && !creep.memory.queueTicket){
+         creep.memory.queueTicket={creepRaiser:creep,creepHauler:null,haulerAction:"take"}
+         Memory.haulerQueue.push(creep.memory.queueTicket);
         }
 
-        if (creep.memory.upgrading) {
-            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {
-                    visualizePathStyle: {
-                        stroke: '#ffffff'
-                    }
-                });
-            }
-        } else {
-            var sources = creep.memory.assignedRoom.find(FIND_SOURCES);
-            if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {
-                    visualizePathStyle: {
-                        stroke: '#ffaa00'
-                    }
-                });
-            }
+        if(creep.memory.queueTicket && creep.memory.queueTicket.creepHauler){
+           if(creep.transfer(creep.memory.queueTicket.creepHauler,RESOURCE_ENERGY)==OK){
+               creep.memory.queueTicket=null;
+           }
+        }
+
+        if (creep.harvest(creep.memory.targetSource) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(creep.memory.targetSource, {
+                visualizePathStyle: {
+                    stroke: '#ffaa00'
+                }
+            });
         }
     }
 };

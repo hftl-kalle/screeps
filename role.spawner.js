@@ -1,7 +1,15 @@
 var roleSpawner = {
-
+    
     /** @param {Creep} creep **/
     run: function (spawn) {
+
+        if(spawn.energy<spawn.energyCapacity){
+            if(_.findIndex(Memory.haulerQueue,{creepRaiser:spawn})==-1){
+                Memory.structuresEnergy[spawn.name]={creepRaiser:spawn,creepHauler:null,haulerAction:"give"};
+                Memory.haulerQueue.splice(0,0,Memory.structuresEnergy[spawn.name]);     
+            } 
+        }
+
         var roles = {
             upgrader: {
                 MOVE: 1,
