@@ -8,7 +8,7 @@ var roleHauler = {
             for (var i = 0; i < Memory.haulerQueue.length; i++) {
                 var action = Memory.haulerQueue[i].haulerAction;
                 var creepCapacity = creep.carry.carryCapacity;
-                var creepEnergy = creep.carry.energy;
+                var creepEnergy = creep.carry[RESOURCE_ENERGY];
                 var raiserCapacity = Memory.haulerQueue[i].creepRaiser.carryCapacity;
                 if (action == "take" && creepCapacity - creepEnergy > raiserCapacity || action == "give" && creepEnergy >= raiserCapacity) {
                     creep.memory.currentTicket = Memory.haulerQueue[i];

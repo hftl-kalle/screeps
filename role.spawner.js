@@ -4,9 +4,7 @@ var roleSpawner = {
     run: function (spawn) {
 
         if (spawn.energy < spawn.energyCapacity) {
-            if (_.findIndex(Memory.haulerQueue, {
-                    creepRaiser: spawn
-                }) == -1) {
+            if (!Memory.structuresEnergy[spawn.name]) {
                 Memory.structuresEnergy[spawn.name] = {
                     creepRaiser: spawn,
                     creepHauler: null,
@@ -44,6 +42,14 @@ var roleSpawner = {
         var sumUpgrader = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
         var sumBuilder = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
 
+        console.log("GameTime: " + Game.time);
+        console.log("sumHarvester " + sumHarvester);
+        console.log("sumMiner " + sumMiner);
+        console.log("sumHauler " + sumHauler);
+        console.log("sumUpgrader " + sumUpgrader);
+        console.log("sumUpgrader " + sumUpgrader);
+        console.log("sumBuilder " + sumBuilder);
+
         var nonFullExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
             filter: (structure) => {
                 if (structure.structureType == STRUCTURE_EXTENSION) return structure.energy < structure.energyCapacity;
@@ -51,20 +57,20 @@ var roleSpawner = {
             }
         });
 
-        if (Object.keys(Game.creeps).length <= Memory.maxCreeps && spawn.energy == spawn.energyCapacity && !spawn.spawning && spawn.room.energyAvailable == spawn.room.energyCapacityAvailable) {
+        if (sumMiner == 0 && sumHauler == 0 && sumHarvester == 0 && spawn.room.energyAvailable == 200) {
+            var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
+            spawn.spawnCreep([WORK, CARRY, MOVE], 'Worker' + Game.time, {
+                memory: {
+                    role: "harvester"
+                }
+            });
+        } else if (Object.keys(Game.creeps).length <= Memory.maxCreeps && spawn.energy == spawn.energyCapacity && !spawn.spawning && spawn.room.energyAvailable == spawn.room.energyCapacityAvailable) {
             var sumMiningSpaces = 0;
             for (var key in Memory.sources) {
                 sumMiningSpaces += Memory.sources[key].freeTiles;
             }
 
-            if (sumMiner == 0 || sumHauler == 0) {
-                var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
-                spawn.spawnCreep([WORK, CARRY, MOVE], 'Worker' + Game.time, {
-                    memory: {
-                        role: "harvester"
-                    }
-                });
-            } else if (sumMiner != sumMiningSpaces && sumMiner <= sumHauler) {
+            if (sumMiner != sumMiningSpaces && sumMiner <= sumHauler) {
                 var body = [];
                 for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
