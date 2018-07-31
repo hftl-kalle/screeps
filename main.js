@@ -49,7 +49,7 @@ module.exports.loop = function () {
     // delete died creeps from memory
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
-            if (i.queueTicket) {
+            if (Memory.creeps[i].queueTicket) {
                 Memory.haulerQueue.splice(_.findIndex(Memory.haulerQueue, function (o) {
                     return o.creepRaiser.name == i;
                 }), 1);
