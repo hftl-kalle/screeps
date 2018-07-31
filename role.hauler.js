@@ -62,9 +62,9 @@ var roleHauler = {
                 } else if (tryTransfer == OK) {
                     console.log("transfer ok");
                     if (ticket.creepRaiser.name && Game.creeps[ticket.creepRaiser.name]) Game.creeps[ticket.creepRaiser.name].memory.queueTicket = null;
-                    else if (ticket.creepRaiser.id && Memory.structures[ticket.creepRaiser.id]) {
+                    else if (ticket.creepRaiser.id && Memory.structuresEnergy[ticket.creepRaiser.id]) {
                         delete Memory.structuresEnergy[ticket.creepRaiser.id]
-                    } else if (ticket.creepRaiser.name && Memory.structures[ticket.creepRaiser.name]) {
+                    } else if (ticket.creepRaiser.name && Memory.structuresEnergy[ticket.creepRaiser.name]) {
                         delete Memory.structuresEnergy[ticket.creepRaiser.name];
                     }
                     creep.memory.currentTicket = null;
