@@ -52,8 +52,7 @@ var utilityTickets = {
     },
     reportDone:function(ticketWorker){
         for(var key in Memory.Tickets){
-            if(Memory.Tickets[key].ticketWorker==ticketWorker) {
-                Memory.Tickets[ticketRaiser]=null;
+            if(Memory.Tickets[key].Worker==ticketWorker) {
                 delete Memory.Tickets[key]; 
                 return true;
             }
@@ -62,7 +61,6 @@ var utilityTickets = {
     },
     removeTicket:function(ticketRaiser){
         if(Memory.Tickets[ticketRaiser]){
-            Memory.Tickets[ticketRaiser]=null;
             delete Memory.Tickets[ticketRaiser];
             return true;
         }
