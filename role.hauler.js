@@ -25,7 +25,7 @@ var roleHauler = {
                     }
                 }) //todo
                 containers.sort(function (a, b) {
-                    return a.store[RESOURCE_ENERGY] - b.store[RESOURCE_ENERGY];
+                    return b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY];
                 });
                 console.log(containers.length);
                 if (containers.length > 0)
@@ -41,7 +41,7 @@ var roleHauler = {
             // fetch the stuff from miners directly
             var ticket = creep.memory.currentTicket;
             if (ticket.haulerAction == "take") {
-                if (Game.creeps[ticket.creepRaiser.Name].memory.queueTicket) creep.moveTo(ticket.creepRaiser, {
+                if (Game.creeps[ticket.creepRaiser.Name].memory.queueTicket) creep.moveTo(Game.getObjectById(ticket.creepRaiser.id), {
                     visualizePathStyle: {
                         stroke: '#ffaa00'
                     }
@@ -49,9 +49,9 @@ var roleHauler = {
                 else creep.memory.currentTicket = null;
                 // give stuff
             } else if (ticket.haulerAction == "give") {
-                var tryTransfer = creep.transfer(ticket.creepRaiser);
+                var tryTransfer = creep.transfer(Game.getObjectById(ticket.creepRaiser.id));
                 if (tryTransfer == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(ticket.creepRaiser, {
+                    creep.moveTo(Game.getObjectById(ticket.creepRaiser.id), {
                         visualizePathStyle: {
                             stroke: '#ffaa00'
                         }
