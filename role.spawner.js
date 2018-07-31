@@ -1,13 +1,19 @@
 var roleSpawner = {
-    
+
     /** @param {Creep} creep **/
     run: function (spawn) {
 
-        if(spawn.energy<spawn.energyCapacity){
-            if(_.findIndex(Memory.haulerQueue,{creepRaiser:spawn})==-1){
-                Memory.structuresEnergy[spawn.name]={creepRaiser:spawn,creepHauler:null,haulerAction:"give"};
-                Memory.haulerQueue.splice(0,0,Memory.structuresEnergy[spawn.name]);     
-            } 
+        if (spawn.energy < spawn.energyCapacity) {
+            if (_.findIndex(Memory.haulerQueue, {
+                    creepRaiser: spawn
+                }) == -1) {
+                Memory.structuresEnergy[spawn.name] = {
+                    creepRaiser: spawn,
+                    creepHauler: null,
+                    haulerAction: "give"
+                };
+                Memory.haulerQueue.splice(0, 0, Memory.structuresEnergy[spawn.name]);
+            }
         }
 
         var roles = {
@@ -46,14 +52,67 @@ var roleSpawner = {
         });
 
         if (Object.keys(Game.creeps).length <= Memory.maxCreeps && spawn.energy == spawn.energyCapacity && !spawn.spawning && spawn.room.energyAvailable == spawn.room.energyCapacityAvailable) {
-            
+            var sumMiningSpaces = 0;
+            for (var key in Memory.sources) {
+                sumMiningSpaces += Memory.sources[key].freeTiles;
+            }
 
-            var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
-            spawn.spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE], 'Worker' + Game.time, {
-                memory: {
-                    role: role
+            if (sumMiner == 0 || sumHauler == 0) {
+                var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
+                spawn.spawnCreep([WORK, CARRY, MOVE], 'Worker' + Game.time, {
+                    memory: {
+                        role: "harvester"
+                    }
+                });
+            } else if (sumMiner != sumMiningSpaces && sumMiner <= sumHauler) {
+                var body = [];
+                for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                    body.push(WORK);
                 }
-            });
+                body.push(MOVE);
+                body.push(CARRY);
+                spawn.spawnCreep(body, 'Worker' + Game.time, {
+                    memory: {
+                        role: "miner"
+                    }
+                });
+            } else if (sumMiner < sumHauler || Object.keys(Game.creeps).length <= Memory.maxCreeps && (sumUpgrader + sumBuilder + sumMiner) / 2 < sumHauler) {
+                var body = [];
+                for (var i = 0; i < (spawn.room.energyAvailable) / 100; i++) {
+                    body.push(MOVE);
+                    body.push(CARRY);
+                }
+
+                spawn.spawnCreep(body, 'Worker' + Game.time, {
+                    memory: {
+                        role: "hauler"
+                    }
+                });
+            } else if (sumBuilder < Memory.maxBuilders) {
+                var body = [];
+                for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                    body.push(WORK);
+                }
+                body.push(MOVE);
+                body.push(CARRY);
+                spawn.spawnCreep(body, 'Worker' + Game.time, {
+                    memory: {
+                        role: "builder"
+                    }
+                });
+            } else if (sumUpgrader < Memory.maxUpgraders) {
+                var body = [];
+                for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                    body.push(WORK);
+                }
+                body.push(MOVE);
+                body.push(CARRY);
+                spawn.spawnCreep(body, 'Worker' + Game.time, {
+                    memory: {
+                        role: "upgrader"
+                    }
+                });
+            }
         }
 
         var emptySource = spawn.room.find(FIND_SOURCES, {

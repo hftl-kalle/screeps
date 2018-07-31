@@ -9,6 +9,8 @@ var roleExtention = require('role.extension');
 // test commit for creds
 module.exports.loop = function () {
     // declare gobals
+    Memory.maxBuilders = 4;
+    Memory.maxUpgraders = 3;
     Memory.maxCreeps = 11;
     Memory.harvesterPercentage = 0.6;
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
@@ -43,8 +45,8 @@ module.exports.loop = function () {
     // delete died creeps from memory
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
-            if(i.queueTicket){
-                Memory.haulerQueue.splice(Memory.haulerQueue.indexOf(i.queueTicket),1);
+            if (i.queueTicket) {
+                Memory.haulerQueue.splice(Memory.haulerQueue.indexOf(i.queueTicket), 1);
             }
             delete Memory.creeps[i];
         }
@@ -53,12 +55,12 @@ module.exports.loop = function () {
     // set all roles to units
     roleSpawner.run(Game.spawns["Spawn1"]);
 
-    var extensions=Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
+    var extensions = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION);
         }
     });
-    for(var i=0; i<extensions.length; i++){
+    for (var i = 0; i < extensions.length; i++) {
         roleExtention.run(extensions[i]);
     }
 
