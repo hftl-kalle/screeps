@@ -12,24 +12,17 @@ var roleHauler = {
             // fetch the stuff from miners directly
 
             if (currentTicket.Action == "take") {
-                if (Game.creeps[currentTicket.Raiser]) creep.moveTo(Game.creeps[currentTicket.Raiser], {
-                    visualizePathStyle: {
-                        stroke: '#ffaa00'
-                    }
-                });
-                else {
-                    var tryWithdraw = creep.withdraw(Game.getObjectById(currentTicket.Raiser), RESOURCE_ENERGY);
-                    if (tryWithdraw == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(Game.getObjectById(currentTicket.creepRaiser.id), {
-                            visualizePathStyle: {
-                                stroke: '#ffaa00'
-                            }
-                        });
-                    }
-                    if (tryWithdraw == OK || creep.carry.energy == creep.carryCapacity) {
-                        utilityTickets.reportDone(creep.id);
-                    }
+                var tryWithdraw = creep.withdraw(Game.getObjectById(currentTicket.Raiser), RESOURCE_ENERGY);
+                if (tryWithdraw == ERR_NOT_IN_RANGE || tryWithdraw== ERR_INVALID_TARGET) {
+                    creep.moveTo(Game.getObjectById(currentTicket.creepRaiser.id), {
+                        visualizePathStyle: {
+                            stroke: '#ffaa00'
+                        }
+                    });
                 }
+                if (tryWithdraw == OK || creep.carry.energy == creep.carryCapacity) {
+                    utilityTickets.reportDone(creep.id);
+                }                
                 // give stuff
             } else if (currentTicket.Action == "give") {
                 var giveTarget = Game.getObjectById(currentTicket.Raiser) || Game.spawns[currentTicket.Raiser];
