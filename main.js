@@ -11,7 +11,7 @@ module.exports.loop = function () {
     // declare gobals
     Memory.maxBuilders = 4;
     Memory.maxUpgraders = 3;
-    Memory.maxCreeps = 11;
+    Memory.maxCreeps = 21;
     Memory.harvesterPercentage = 0.6;
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
     if (!Memory.haulerQueue) Memory.haulerQueue = [];

@@ -96,7 +96,7 @@ var roleSpawner = {
                         assignedRoom: spawn.room
                     }
                 });
-            } else if (sumHauler < sumMiner || Object.keys(Game.creeps).length <= Memory.maxCreeps && (sumUpgrader + sumBuilder + sumMiner) / 2 < sumHauler) {
+            } else if (sumHauler < sumMiner || Object.keys(Game.creeps).length <= Memory.maxCreeps && (sumUpgrader + sumBuilder + sumMiner) / 2 > sumHauler) {
                 console.log("spawning hauler");
                 var body = [];
                 for (var i = 1; i < (spawn.room.energyAvailable) / 100; i++) {
