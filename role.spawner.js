@@ -42,21 +42,6 @@ var roleSpawner = {
         var sumUpgrader = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
         var sumBuilder = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
 
-        console.log("GameTime: " + Game.time);
-        console.log("sumHarvester " + sumHarvester);
-        console.log("sumMiner " + sumMiner);
-        console.log("sumHauler " + sumHauler);
-        console.log("sumUpgrader " + sumUpgrader);
-        console.log("sumUpgrader " + sumUpgrader);
-        console.log("sumBuilder " + sumBuilder);
-
-        var nonFullExtensions = spawn.room.find(FIND_MY_STRUCTURES, {
-            filter: (structure) => {
-                if (structure.structureType == STRUCTURE_EXTENSION) return structure.energy < structure.energyCapacity;
-                else return;
-            }
-        });
-
         if (sumMiner == 0 && sumHauler == 0 && sumHarvester == 0 && spawn.room.energyAvailable == 200) {
             var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
             spawn.spawnCreep([WORK, CARRY, MOVE], 'Worker' + Game.time, {
@@ -72,19 +57,27 @@ var roleSpawner = {
 
             if (sumMiner != sumMiningSpaces && sumMiner <= sumHauler) {
                 var body = [];
-                for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
                 }
                 body.push(MOVE);
                 body.push(CARRY);
+                var target = Game.structures[Memory.sources[0]];
+                for (var key in Memory.sources) {
+                    if (Memory.sources.miners < Memory.sources.freeTiles) {
+                        target = Game.structures[Memory.sources[key]];
+                        break;
+                    }
+                }
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
-                        role: "miner"
+                        role: "miner",
+                        targetSource: target
                     }
                 });
             } else if (sumMiner < sumHauler || Object.keys(Game.creeps).length <= Memory.maxCreeps && (sumUpgrader + sumBuilder + sumMiner) / 2 < sumHauler) {
                 var body = [];
-                for (var i = 0; i < (spawn.room.energyAvailable) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable) / 100; i++) {
                     body.push(MOVE);
                     body.push(CARRY);
                 }
@@ -96,7 +89,7 @@ var roleSpawner = {
                 });
             } else if (sumBuilder < Memory.maxBuilders) {
                 var body = [];
-                for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
                 }
                 body.push(MOVE);
@@ -108,7 +101,7 @@ var roleSpawner = {
                 });
             } else if (sumUpgrader < Memory.maxUpgraders) {
                 var body = [];
-                for (var i = 0; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
                 }
                 body.push(MOVE);

@@ -35,7 +35,7 @@ var roleHauler = {
             // fetch the stuff from miners directly
             var ticket = creep.memory.currentTicket;
             if (ticket.haulerAction == "take") {
-                if (ticket.creepRaiser.memory.queueTicket) creep.moveTo(ticket.creepRaiser, {
+                if (Game.creeps[ticket.creepRaiser.Name].memory.queueTicket) creep.moveTo(ticket.creepRaiser, {
                     visualizePathStyle: {
                         stroke: '#ffaa00'
                     }
@@ -51,7 +51,7 @@ var roleHauler = {
                         }
                     });
                 } else if (tryTransfer == OK) {
-                    if (ticket.creepRaiser.Name && Game.creeps[ticket.creepRaiser.Name]) ticket.creepRaiser.memory.queueTicket = null;
+                    if (ticket.creepRaiser.Name && Game.creeps[ticket.creepRaiser.Name]) Game.creeps[ticket.creepRaiser.Name].memory.queueTicket = null;
                     else if (ticket.creepRaiser.id && Memory.structures[ticket.creepRaiser.id]) {
                         delete Memory.structuresEnergy[ticket.creepRaiser.id]
                     } else if (ticket.creepRaiser.name && Memory.structures[ticket.creepRaiser.name]) {

@@ -42,12 +42,17 @@ module.exports.loop = function () {
                 }
             }
         }
+        for (var key in Memory.sources) {
+            Memory.sources[key].miners = _.sum(Game.creeps, (c) => c.memory.targetSource.id == key);
+        }
     }
     // delete died creeps from memory
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
             if (i.queueTicket) {
-                Memory.haulerQueue.splice(Memory.haulerQueue.indexOf(i.queueTicket), 1);
+                Memory.haulerQueue.splice(_.findIndex(Memory.haulerQueue, function (o) {
+                    return o.creepRaiser.name == i;
+                }), 1);
             }
             delete Memory.creeps[i];
         }
