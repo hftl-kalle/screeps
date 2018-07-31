@@ -76,7 +76,7 @@ var roleSpawner = {
                 for (var key in Memory.sources) {
                     console.log(key);
                     if (Memory.sources[key].miners < Memory.sources[key].freeTiles) {
-                        target = Game.spawns[spawn].room.find(FIND_SOURCES, {
+                        target = spawn.room.find(FIND_SOURCES, {
                             filter: (source) => {
                                 return source.id == key;
                             }
@@ -84,7 +84,7 @@ var roleSpawner = {
                         break;
                     }
                     if (target == null) {
-                        target = Game.spawns[spawn].room.find(FIND_SOURCES, {
+                        target = spawn.room.find(FIND_SOURCES, {
                             filter: (source) => {
                                 return source.id == key;
                             }
