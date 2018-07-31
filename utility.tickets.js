@@ -32,10 +32,10 @@ var utilityTickets = {
         if(worker.carryCapacity==worker.carry.energy) ticketAction="give";
         for(var key in Memory.Tickets){
             if(ticketAction &&Memory.Tickets[key].Action!=ticketAction) continue;
-            var raiser= Game.getObjectById(key)||!Game.spawns[key];
+            var raiser= Game.getObjectById(key)||Game.spawns[key];
 
             var timeDiff= Game.time-Memory.Tickets[key].Time;
-            var cost= PathFinder.search(worker.pos,{pos:raiser.pos,rang:1}).cost;
+            var cost= PathFinder.search(worker.pos,{pos:raiser.pos,range:1}).cost;
             var energyDiff=worker.carryCapacity-worker.carry.energy;
             console.log("timeDiff "+timeDiff);
             console.log("energyDiff "+energyDiff);

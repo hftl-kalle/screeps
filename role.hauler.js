@@ -10,18 +10,17 @@ var roleHauler = {
 
         if (currentTicket) {
             // fetch the stuff from miners directly
-            var ticket = creep.memory.currentTicket;
 
-            if (ticket.Action == "take") {
-                if (Game.creeps[ticket.Raiser]) creep.moveTo(Game.creeps[ticket.Raiser], {
+            if (currentTicket.Action == "take") {
+                if (Game.creeps[currentTicket.Raiser]) creep.moveTo(Game.creeps[currentTicket.Raiser], {
                     visualizePathStyle: {
                         stroke: '#ffaa00'
                     }
                 });
                 else {
-                    var tryWithdraw = creep.withdraw(Game.getObjectById(ticket.creepRaiser.id), RESOURCE_ENERGY);
+                    var tryWithdraw = creep.withdraw(Game.getObjectById(currentTicket.Raiser), RESOURCE_ENERGY);
                     if (tryWithdraw == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(Game.getObjectById(ticket.creepRaiser.id), {
+                        creep.moveTo(Game.getObjectById(currentTicket.creepRaiser.id), {
                             visualizePathStyle: {
                                 stroke: '#ffaa00'
                             }
@@ -32,8 +31,8 @@ var roleHauler = {
                     }
                 }
                 // give stuff
-            } else if (ticket.Action == "give") {
-                var giveTarget = Game.getObjectById(ticket.Raiser) || Game.spawns[ticket.Raiser];
+            } else if (currentTicket.Action == "give") {
+                var giveTarget = Game.getObjectById(currentTicket.Raiser) || Game.spawns[currentTicket.Raiser];
                 if(!giveTarget){
                     creep.say("invalid Target");
                     return;
