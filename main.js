@@ -6,6 +6,7 @@ var roleHauler = require('role.hauler');
 var roleMiner = require('role.miner');
 var roleExtention = require('role.extension');
 var roleContainer = require('role.container');
+var utilityTickets = require('utility.tickets');
 
 // test commit for creds
 module.exports.loop = function () {
@@ -18,7 +19,10 @@ module.exports.loop = function () {
     if (!Memory.sources) Memory.sources = {};
     if (!Memory.Logging) Memory.Logging = {};
     if(!Memory.Tickets) Memory.Tickets={};
-    
+
+    // cleanup tickets
+    utilityTickets.checkValidity();
+
     // set number of available spots for miners on all sources
     for (var spawn in Game.spawns) {
         var sources = Game.spawns[spawn].room.find(FIND_SOURCES, {
