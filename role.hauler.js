@@ -14,7 +14,7 @@ var roleHauler = {
             if (currentTicket.Action == "take") {
                 var tryWithdraw = creep.withdraw(Game.getObjectById(currentTicket.Raiser), RESOURCE_ENERGY);
                 if (tryWithdraw == ERR_NOT_IN_RANGE || tryWithdraw== ERR_INVALID_TARGET) {
-                    creep.moveTo(Game.getObjectById(currentTicket.creepRaiser.id), {
+                    creep.moveTo(Game.getObjectById(currentTicket.Raiser), {
                         visualizePathStyle: {
                             stroke: '#ffaa00'
                         }
