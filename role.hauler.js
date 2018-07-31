@@ -68,7 +68,7 @@ var roleHauler = {
             } else if (ticket.haulerAction == "fetch") {
                 var tryWithdraw = creep.withdraw(Game.getObjectById(ticket.creepRaiser.id), RESOURCE_ENERGY);
                 if (tryWithdraw == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(ticket.creepRaiser, {
+                    creep.moveTo(Game.getObjectById(ticket.creepRaiser.id), {
                         visualizePathStyle: {
                             stroke: '#ffaa00'
                         }
