@@ -3,6 +3,7 @@ var roleSpawner = {
     /** @param {Creep} creep **/
     run: function (spawn) {
 
+        // ticket creation and cleanup
         if (spawn.energy < spawn.energyCapacity) {
             if (!Memory.structuresEnergy[spawn.name]) {
                 Memory.structuresEnergy[spawn.name] = {
@@ -12,6 +13,12 @@ var roleSpawner = {
                 };
                 Memory.haulerQueue.splice(0, 0, Memory.structuresEnergy[spawn.name]);
             }
+        } else if (spawn.energy == spawn.energyCapacity && Memory.structuresEnergy[spawn.name]) {
+            delete Memory.structuresEnergy[spawn.name];
+            var index = _.findIndex(Memory.haulerQueue, function (o) {
+                return o.creepRaiser.name == spawn.name;
+            });
+            if (index) Memory.haulerQueue.splice(index, 1);
         }
 
         var roles = {
@@ -42,7 +49,7 @@ var roleSpawner = {
         var sumUpgrader = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
         var sumBuilder = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
 
-        if (sumMiner == 0 && sumHauler == 0 && sumHarvester <= 3 && spawn.room.energyAvailable >= 200) {
+        if (sumMiner == 0 && sumHauler == 0 && sumHarvester < 3 && spawn.room.energyAvailable >= 200) {
             var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
             spawn.spawnCreep([WORK, CARRY, MOVE], 'Worker' + Game.time, {
                 memory: {
