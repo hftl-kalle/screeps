@@ -22,8 +22,8 @@ var roleMiner = {
             }
         }
 
-        if (creep.harvest(creep.memory.targetSource) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.memory.targetSource, {
+        if (creep.harvest(Game.getObjectById(creep.memory.targetSource)) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(Game.getObjectById(creep.memory.targetSource), {
                 visualizePathStyle: {
                     stroke: '#ffaa00'
                 }
