@@ -18,7 +18,6 @@ var roleHauler = {
                 }
             }
             if (!creep.memory.currentTicket) {
-                console.log("fetch container ticket");
                 var containers = creep.memory.assignedRoom.find(FIND_STRUCTURES, {
                     filter: {
                         structureType: STRUCTURE_CONTAINER
@@ -27,7 +26,6 @@ var roleHauler = {
                 containers.sort(function (a, b) {
                     return b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY];
                 });
-                console.log(containers.length);
                 if (containers.length > 0)
                     creep.memory.currentTicket = {
                         creepRaiser: containers[0],
@@ -51,8 +49,6 @@ var roleHauler = {
             } else if (ticket.haulerAction == "give") {
                 var giveTarget = ticket.creepRaiser.id ? Game.getObjectById(ticket.creepRaiser.id) : Game.creeps[ticket.creepRaiser.name];
                 var tryTransfer = creep.transfer(giveTarget, RESOURCE_ENERGY);
-                console.log("tryTransfer");
-                console.log(tryTransfer);
                 if (tryTransfer == ERR_NOT_IN_RANGE) {
                     creep.moveTo(giveTarget, {
                         visualizePathStyle: {
@@ -60,7 +56,6 @@ var roleHauler = {
                         }
                     });
                 } else if (tryTransfer == OK) {
-                    console.log("transfer ok");
                     if (ticket.creepRaiser.name && Game.creeps[ticket.creepRaiser.name]) Game.creeps[ticket.creepRaiser.name].memory.queueTicket = null;
                     else if (ticket.creepRaiser.id && Memory.structuresEnergy[ticket.creepRaiser.id]) {
                         delete Memory.structuresEnergy[ticket.creepRaiser.id]

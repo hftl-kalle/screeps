@@ -44,10 +44,16 @@ var roleSpawner = {
         };
 
         var sumHarvester = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
+        Memory.Logging.sumHarvester = sumHarvester;
         var sumMiner = _.sum(Game.creeps, (c) => c.memory.role == 'miner');
+        Memory.Logging.sumMiner = sumMiner;
         var sumHauler = _.sum(Game.creeps, (c) => c.memory.role == 'hauler');
+        Memory.Logging.sumHauler = sumHauler;
         var sumUpgrader = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
+        Memory.Logging.sumUpgrader = sumUpgrader;
         var sumBuilder = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
+        Memory.Logging.sumBuilder = sumBuilder;
+
 
         if (sumMiner == 0 && sumHauler == 0 && sumHarvester < 3 && spawn.room.energyAvailable >= 200) {
             var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
@@ -74,7 +80,6 @@ var roleSpawner = {
                 var target = null;
 
                 for (var key in Memory.sources) {
-                    console.log(key);
                     if (Memory.sources[key].miners < Memory.sources[key].freeTiles) {
                         target = key;
                         break;
@@ -83,7 +88,6 @@ var roleSpawner = {
                         target = key;
                     }
                 }
-                console.log(target);
 
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {

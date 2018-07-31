@@ -17,6 +17,7 @@ module.exports.loop = function () {
     if (!Memory.haulerQueue) Memory.haulerQueue = [];
     if (!Memory.sources) Memory.sources = {};
     if (!Memory.structuresEnergy) Memory.structuresEnergy = {};
+    if (!Memory.Logging) Memory.Logging = {};
 
     // set number of available spots for miners on all sources
     for (var spawn in Game.spawns) {
