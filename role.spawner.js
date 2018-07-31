@@ -74,16 +74,25 @@ var roleSpawner = {
                 var target = null;
 
                 for (var key in Memory.sources) {
-                    if (Memory.sources.miners < Memory.sources.freeTiles) {
-                        target = Game.structures[Memory.sources[key]];
+                    console.log(key);
+                    if (Memory.sources[key].miners < Memory.sources[key].freeTiles) {
+                        target = Game.spawns[spawn].room.find(FIND_SOURCES, {
+                            filter: (source) => {
+                                return source.id == key;
+                            }
+                        })[0];
                         break;
                     }
                     if (target == null) {
-                        target = Game.structures[Memory.sources[key]];
+                        target = Game.spawns[spawn].room.find(FIND_SOURCES, {
+                            filter: (source) => {
+                                return source.id == key;
+                            }
+                        })[0];
                     }
                 }
-                console.log(d);
-                console.log(target.id);
+                console.log(target);
+
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
                         role: "miner",
