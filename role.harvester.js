@@ -28,7 +28,16 @@ var roleHarvester = {
                         }
                     });
                 }
+            } else {
+                if (creep.upgradeController(creep.memory.assignedRoom.controller) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.memory.assignedRoom.controller, {
+                        visualizePathStyle: {
+                            stroke: '#ffffff'
+                        }
+                    });
+                }
             }
+
         }
     }
 };
