@@ -43,7 +43,7 @@ module.exports.loop = function () {
             }
         }
         for (var key in Memory.sources) {
-            Memory.sources[key].miners = _.sum(Game.creeps, (c) => c.memory.role == "miner" && c.memory.targetSource.id == key);
+            Memory.sources[key].miners = _.sum(Game.creeps, (c) => c.memory.role == "miner" && c.memory.targetSource && c.memory.targetSource.id == key);
         }
     }
     // delete died creeps from memory

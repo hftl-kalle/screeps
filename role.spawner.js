@@ -63,13 +63,15 @@ var roleSpawner = {
                 }
                 body.push(MOVE);
                 body.push(CARRY);
-                var target = Game.structures[Memory.sources[0]];
+                var target = Game.structures[Memory.sources[0].key];
                 for (var key in Memory.sources) {
                     if (Memory.sources.miners < Memory.sources.freeTiles) {
                         target = Game.structures[Memory.sources[key]];
                         break;
                     }
                 }
+                console.log(d);
+                console.log(target.id);
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
                         role: "miner",
