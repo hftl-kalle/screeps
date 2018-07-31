@@ -21,28 +21,6 @@ var roleSpawner = {
             if (index) Memory.haulerQueue.splice(index, 1);
         }
 
-        var roles = {
-            upgrader: {
-                MOVE: 1,
-                CARRY: 1,
-                WORK: "x"
-            },
-            builder: {
-                MOVE: 1,
-                CARRY: 1,
-                WORK: "x"
-            },
-            miner: {
-                MOVE: 1,
-                CARRY: 1,
-                WORK: "x"
-            },
-            hauler: {
-                MOVE: 1,
-                CARRY: "x"
-            }
-        };
-
         var sumHarvester = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
         Memory.Logging.sumHarvester = sumHarvester;
         var sumMiner = _.sum(Game.creeps, (c) => c.memory.role == 'miner');
@@ -72,9 +50,10 @@ var roleSpawner = {
             if (sumMiner != sumMiningSpaces && sumMiner <= sumHauler) {
                 console.log("spawning miner");
                 var body = [];
-                for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable - 150) / 100; i++) {
                     body.push(WORK);
                 }
+                body.push(MOVE);
                 body.push(MOVE);
                 body.push(CARRY);
                 var target = null;
