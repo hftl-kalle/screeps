@@ -9,7 +9,7 @@ var roleHauler = {
                 var action = Memory.haulerQueue[i].haulerAction;
                 var creepCapacity = creep.carry.carryCapacity;
                 var creepEnergy = creep.carry[RESOURCE_ENERGY];
-                var raiserCapacity = Memory.haulerQueue[i].creepRaiser.carryCapacity;
+                var raiserCapacity = Memory.haulerQueue[i].creepRaiser.carryCapacity ? Memory.haulerQueue[i].creepRaiser.carryCapacity : Memory.haulerQueue[i].creepRaiser.energyCapacity;
                 if (action == "take" && creepCapacity - creepEnergy > raiserCapacity || action == "give" && creepEnergy >= raiserCapacity) {
                     creep.memory.currentTicket = Memory.haulerQueue[i];
                     creep.memory.currentTicket.creepHauler = creep;
@@ -50,7 +50,7 @@ var roleHauler = {
                 // give stuff
             } else if (ticket.haulerAction == "give") {
                 var giveTarget = ticket.creepRaiser.id ? Game.getObjectById(ticket.creepRaiser.id) : Game.creeps[ticket.creepRaiser.name];
-                var tryTransfer = ticket.creepRaiser.id ? creep.transfer(giveTarget) : creep.transfer(giveTarget);
+                var tryTransfer = creep.transfer(giveTarget, RESOURCE_ENERGY);
                 if (tryTransfer == ERR_NOT_IN_RANGE) {
                     creep.moveTo(giveTarget, {
                         visualizePathStyle: {
@@ -75,7 +75,7 @@ var roleHauler = {
                         }
                     });
                 }
-                if (tryWithdraw == OK) {
+                if (tryWithdraw == OK || creep.carry.energy == creep.carryCapacity) {
                     creep.memory.currentTicket = null;
                 }
             }
