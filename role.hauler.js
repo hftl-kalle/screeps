@@ -41,7 +41,7 @@ var roleHauler = {
             // fetch the stuff from miners directly
             var ticket = creep.memory.currentTicket;
             if (ticket.haulerAction == "take") {
-                if (Game.creeps[ticket.creepRaiser.Name].memory.queueTicket) creep.moveTo(Game.getObjectById(ticket.creepRaiser.id), {
+                if (Game.creeps[ticket.creepRaiser.name].memory.queueTicket) creep.moveTo(Game.creeps[ticket.creepRaiser.name], {
                     visualizePathStyle: {
                         stroke: '#ffaa00'
                     }
@@ -49,15 +49,16 @@ var roleHauler = {
                 else creep.memory.currentTicket = null;
                 // give stuff
             } else if (ticket.haulerAction == "give") {
-                var tryTransfer = creep.transfer(Game.getObjectById(ticket.creepRaiser.id));
+                var giveTarget = ticket.creepRaiser.id ? Game.getObjectById(ticket.creepRaiser.id) : Game.creeps[ticket.creepRaiser.name];
+                var tryTransfer = ticket.creepRaiser.id ? creep.transfer(giveTarget) : creep.transfer(giveTarget);
                 if (tryTransfer == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(Game.getObjectById(ticket.creepRaiser.id), {
+                    creep.moveTo(giveTarget, {
                         visualizePathStyle: {
                             stroke: '#ffaa00'
                         }
                     });
                 } else if (tryTransfer == OK) {
-                    if (ticket.creepRaiser.Name && Game.creeps[ticket.creepRaiser.Name]) Game.creeps[ticket.creepRaiser.Name].memory.queueTicket = null;
+                    if (ticket.creepRaiser.name && Game.creeps[ticket.creepRaiser.name]) Game.creeps[ticket.creepRaiser.name].memory.queueTicket = null;
                     else if (ticket.creepRaiser.id && Memory.structures[ticket.creepRaiser.id]) {
                         delete Memory.structuresEnergy[ticket.creepRaiser.id]
                     } else if (ticket.creepRaiser.name && Memory.structures[ticket.creepRaiser.name]) {
