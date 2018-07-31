@@ -18,10 +18,12 @@ var roleHauler = {
                 }
             }
             if (!creep.memory.currentTicket) {
+                console.log("fetch container ticket");
                 var containers = creep.memory.assignedRoom.find(STRUCTURE_CONTAINER) //todo
                 containers.sort(function (a, b) {
                     return a.store[RESOURCE_ENERGY] - b.store[RESOURCE_ENERGY];
                 });
+                console.log(containers.length);
                 if (containers.length > 0)
                     creep.memory.currentTicket = {
                         creepRaiser: containers[0],
