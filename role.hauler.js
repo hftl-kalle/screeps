@@ -31,13 +31,14 @@ var roleHauler = {
                     return;
                 }
                 var tryTransfer = creep.transfer(giveTarget, RESOURCE_ENERGY);
+                if(tryTransfer != ERR_NOT_IN_RANGE)console.log("TryTransfer "+ tryTransfer);
                 if (tryTransfer == ERR_NOT_IN_RANGE) {
                     creep.moveTo(giveTarget, {
                         visualizePathStyle: {
                             stroke: '#ffaa00'
                         }
                     });
-                } else if (tryTransfer == OK || tryTransfer == ERR_FULL) {
+                } else if (tryTransfer == OK || tryTransfer == ERR_FULL || tryTransfer==ERR_NOT_ENOUGH_RESOURCES) {
                     utilityTickets.reportDone(creep.id);
                 }
             }
