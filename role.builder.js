@@ -17,7 +17,8 @@ var roleBuilder = {
 
         var targets = creep.memory.assignedRoom.find(FIND_CONSTRUCTION_SITES);
         if (targets.length) {
-            if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+            var intent = creep.build(targets[0]);
+            if (intent == ERR_NOT_IN_RANGE || intent == ERR_NOT_ENOUGH_RESOURCES) {
                 creep.moveTo(targets[0], {
                     visualizePathStyle: {
                         stroke: '#ffffff'
@@ -34,7 +35,8 @@ var roleBuilder = {
                 targets.splice(0, 1);
             }
             if (targets.length > 0) {
-                if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
+                var intent = creep.repair(targets[0])
+                if (intent == ERR_NOT_IN_RANGE || intent == ERR_NOT_ENOUGH_RESOURCES) {
                     creep.moveTo(targets[0], {
                         visualizePathStyle: {
                             stroke: '#ffffff'

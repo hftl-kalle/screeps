@@ -12,8 +12,8 @@ var roleUpgrader = {
             }
             Memory.haulerQueue.push(creep.memory.queueTicket);
         }
-
-        if (creep.upgradeController(creep.memory.assignedRoom.controller) == ERR_NOT_IN_RANGE) {
+        var intent = creep.upgradeController(creep.memory.assignedRoom.controller)
+        if (intent == ERR_NOT_IN_RANGE || intent == ERR_NOT_ENOUGH_RESOURCES) {
             creep.moveTo(creep.memory.assignedRoom.controller, {
                 visualizePathStyle: {
                     stroke: '#ffffff'
