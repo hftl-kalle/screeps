@@ -1,5 +1,3 @@
-var roleUpgrader = require('role.upgrader');
-
 var roleHarvester = {
 
     /** @param {Creep} creep **/
@@ -30,8 +28,6 @@ var roleHarvester = {
                         }
                     });
                 }
-            } else {
-                roleUpgrader.run(creep);
             }
         }
     }
