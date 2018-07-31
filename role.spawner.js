@@ -56,6 +56,7 @@ var roleSpawner = {
             }
 
             if (sumMiner != sumMiningSpaces && sumMiner <= sumHauler) {
+                console.log("spawning miner");
                 var body = [];
                 for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
@@ -76,6 +77,7 @@ var roleSpawner = {
                     }
                 });
             } else if (sumMiner < sumHauler || Object.keys(Game.creeps).length <= Memory.maxCreeps && (sumUpgrader + sumBuilder + sumMiner) / 2 < sumHauler) {
+                console.log("spawning hauler");
                 var body = [];
                 for (var i = 1; i < (spawn.room.energyAvailable) / 100; i++) {
                     body.push(MOVE);
@@ -88,6 +90,7 @@ var roleSpawner = {
                     }
                 });
             } else if (sumBuilder < Memory.maxBuilders) {
+                console.log("spawning builder");
                 var body = [];
                 for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
@@ -100,6 +103,7 @@ var roleSpawner = {
                     }
                 });
             } else if (sumUpgrader < Memory.maxUpgraders) {
+                console.log("spawning upgrader");
                 var body = [];
                 for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
                     body.push(WORK);
