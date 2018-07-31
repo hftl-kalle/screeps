@@ -5,7 +5,7 @@ var roleSpawner = require('role.spawner');
 var roleHauler = require('role.hauler');
 var roleMiner = require('role.miner');
 var roleExtention = require('role.extension');
-var roleContainer = require('role.Container');
+var roleContainer = require('role.container');
 
 // test commit for creds
 module.exports.loop = function () {
