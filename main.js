@@ -2,10 +2,15 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleSpawner = require('role.spawner');
+var roleHauler = require('role.hauler');
+var roleMiner = require('role.miner');
+var roleExtention = require('role.extension');
 
 // test commit for creds
 module.exports.loop = function () {
     // declare gobals
+    Memory.maxBuilders = 4;
+    Memory.maxUpgraders = 3;
     Memory.maxCreeps = 11;
     Memory.harvesterPercentage = 0.6;
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
@@ -40,12 +45,24 @@ module.exports.loop = function () {
     // delete died creeps from memory
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
+            if (i.queueTicket) {
+                Memory.haulerQueue.splice(Memory.haulerQueue.indexOf(i.queueTicket), 1);
+            }
             delete Memory.creeps[i];
         }
     }
 
     // set all roles to units
     roleSpawner.run(Game.spawns["Spawn1"]);
+
+    var extensions = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_EXTENSION);
+        }
+    });
+    for (var i = 0; i < extensions.length; i++) {
+        roleExtention.run(extensions[i]);
+    }
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -58,6 +75,12 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
+        }
+        if (creep.memory.role == 'hauler') {
+            roleHauler.run(creep);
+        }
+        if (creep.memory.role == 'miner') {
+            roleMiner.run(creep);
         }
     }
 
