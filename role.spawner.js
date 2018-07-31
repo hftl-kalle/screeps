@@ -1,3 +1,5 @@
+var utilityTickets = require('utility.tickets');
+
 var roleSpawner = {
 
     /** @param {Creep} creep **/
@@ -5,21 +7,9 @@ var roleSpawner = {
 
         // ticket creation and cleanup
         if (spawn.energy < spawn.energyCapacity) {
-            if (!Memory.structuresEnergy[spawn.name]) {
-                Memory.structuresEnergy[spawn.name] = {
-                    creepRaiser: spawn,
-                    creepHauler: null,
-                    haulerAction: "give"
-                };
-                Memory.haulerQueue.splice(0, 0, Memory.structuresEnergy[spawn.name]);
-            }
-        } else if (spawn.energy == spawn.energyCapacity && Memory.structuresEnergy[spawn.name]) {
-            delete Memory.structuresEnergy[spawn.name];
-            var index = _.findIndex(Memory.haulerQueue, function (o) {
-                return o.creepRaiser.name == spawn.name;
-            });
-            if (index) Memory.haulerQueue.splice(index, 1);
-        }
+            utilityTickets.addTicket(spawn.name,"give");            
+        }else utilityTickets.removeTicket(spawn.name);
+            
 
         var sumHarvester = _.sum(Game.creeps, (c) => c.memory.role == 'harvester');
         Memory.Logging.sumHarvester = sumHarvester;

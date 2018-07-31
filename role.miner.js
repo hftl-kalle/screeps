@@ -1,3 +1,5 @@
+var utilityTickets = require('utility.tickets');
+
 var roleMiner = {
 
     /** @param {Creep} creep **/
@@ -7,18 +9,14 @@ var roleMiner = {
             type: 'structure',
             structure: STRUCTURE_CONTAINER
         });
-        if (creep.carry[RESOURCE_ENERGY] >= creep.carryCapacity * queueCapacity && !creep.memory.queueTicket && containerAtPos == -1) {
-            creep.memory.queueTicket = {
-                creepRaiser: creep,
-                creepHauler: null,
-                haulerAction: "take"
-            }
-            Memory.haulerQueue.push(creep.memory.queueTicket);
+        if (creep.carry[RESOURCE_ENERGY] >= creep.carryCapacity * queueCapacity && containerAtPos == -1) {
+            utilityTickets.addTicket(creep.id,"take");
         }
 
-        if (creep.memory.queueTicket && creep.memory.queueTicket.creepHauler) {
-            if (creep.transfer(creep.memory.queueTicket.creepHauler, RESOURCE_ENERGY) == OK) {
-                creep.memory.queueTicket = null;
+        var raisedTicket= utilityTickets.getRaisedTicket(creep.id);
+        if (raisedTicket && raisedTicket.Worker) {
+            if (creep.transfer(Game.getObjectById(raisedTicket.Worker), RESOURCE_ENERGY) == OK) {
+                utilityTickets.removeTicket(creep.id)
             }
         }
 

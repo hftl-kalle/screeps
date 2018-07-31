@@ -1,3 +1,5 @@
+var utilityTickets = require('utility.tickets');
+
 var roleUpgrader = require('role.upgrader');
 
 var roleBuilder = {
@@ -6,13 +8,8 @@ var roleBuilder = {
     run: function (creep) {
         var raiseCapacity = 0.2
 
-        if (creep.carry[RESOURCE_ENERGY] < creep.carryCapacity * raiseCapacity && !creep.memory.queueTicket) {
-            creep.memory.queueTicket = {
-                creepRaiser: creep,
-                creepHauler: null,
-                haulerAction: "give"
-            }
-            Memory.haulerQueue.push(creep.memory.queueTicket);
+        if (creep.carry[RESOURCE_ENERGY] < creep.carryCapacity * raiseCapacity ) {
+            utilityTickets.addTicket(creep.id,"give")
         }
 
         var targets = creep.memory.assignedRoom.find(FIND_CONSTRUCTION_SITES);

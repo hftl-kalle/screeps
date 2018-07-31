@@ -5,6 +5,7 @@ var roleSpawner = require('role.spawner');
 var roleHauler = require('role.hauler');
 var roleMiner = require('role.miner');
 var roleExtention = require('role.extension');
+var roleContainer = require('role.Container');
 
 // test commit for creds
 module.exports.loop = function () {
@@ -14,9 +15,7 @@ module.exports.loop = function () {
     Memory.maxCreeps = 21;
     Memory.harvesterPercentage = 0.6;
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
-    if (!Memory.haulerQueue) Memory.haulerQueue = [];
     if (!Memory.sources) Memory.sources = {};
-    if (!Memory.structuresEnergy) Memory.structuresEnergy = {};
     if (!Memory.Logging) Memory.Logging = {};
 
     // set number of available spots for miners on all sources
@@ -47,14 +46,10 @@ module.exports.loop = function () {
             Memory.sources[key].miners = _.sum(Game.creeps, (c) => c.memory.role == "miner" && c.memory.targetSource && c.memory.targetSource == key);
         }
     }
+
     // delete died creeps from memory
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
-            if (Memory.creeps[i].queueTicket) {
-                Memory.haulerQueue.splice(_.findIndex(Memory.haulerQueue, function (o) {
-                    return o.creepRaiser.name == i;
-                }), 1);
-            }
             delete Memory.creeps[i];
         }
     }
@@ -69,6 +64,15 @@ module.exports.loop = function () {
     });
     for (var i = 0; i < extensions.length; i++) {
         roleExtention.run(extensions[i]);
+    }
+
+    var containers = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_CONTAINER );
+        }
+    });
+    for (var i = 0; i < containers.length; i++) {
+        roleContainer.run(containers[i]);
     }
 
     for (var name in Game.creeps) {
