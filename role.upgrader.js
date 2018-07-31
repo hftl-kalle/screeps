@@ -7,7 +7,7 @@ var roleUpgrader = {
         var raiseCapacity = 0.2
 
         if (creep.carry[RESOURCE_ENERGY] <= creep.carryCapacity * raiseCapacity) {
-            utilityTickets.add(creep.id,"give");
+            utilityTickets.addTicket(creep.id,"give");
         }
         var intent = creep.upgradeController(creep.memory.assignedRoom.controller)
         if (intent == ERR_NOT_IN_RANGE || intent == ERR_NOT_ENOUGH_RESOURCES) {
