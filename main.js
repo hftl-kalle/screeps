@@ -71,7 +71,7 @@ module.exports.loop = function () {
         roleExtention.run(extensions[i]);
     }
 
-    var containers = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
+    var containers = Game.spawns["Spawn1"].room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_CONTAINER );
         }
