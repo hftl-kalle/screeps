@@ -19,7 +19,11 @@ var roleHauler = {
             }
             if (!creep.memory.currentTicket) {
                 console.log("fetch container ticket");
-                var containers = creep.memory.assignedRoom.find(STRUCTURE_CONTAINER) //todo
+                var containers = creep.memory.assignedRoom.find(FIND_STRUCTURES, {
+                    filter: {
+                        structureType: STRUCTURE_CONTAINER
+                    }
+                }) //todo
                 containers.sort(function (a, b) {
                     return a.store[RESOURCE_ENERGY] - b.store[RESOURCE_ENERGY];
                 });
@@ -62,7 +66,7 @@ var roleHauler = {
                     creep.memory.currentTicket = null;
                 }
             } else if (ticket.haulerAction == "fetch") {
-                var tryWithdraw = creep.withdraw(ticket.creepRaiser, RESOURCE_ENERGY);
+                var tryWithdraw = creep.withdraw(Game.getObjectById(ticket.creepRaiser.id), RESOURCE_ENERGY);
                 if (tryWithdraw == ERR_NOT_IN_RANGE) {
                     creep.moveTo(ticket.creepRaiser, {
                         visualizePathStyle: {
