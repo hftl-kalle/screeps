@@ -109,9 +109,11 @@ var roleSpawner = {
             } else if (sumBuilder < Memory.maxBuilders) {
                 console.log("spawning builder");
                 var body = [];
-                for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable - 200) / 100; i++) {
                     body.push(WORK);
                 }
+                body.push(MOVE);
+                body.push(MOVE);
                 body.push(MOVE);
                 body.push(CARRY);
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
@@ -123,9 +125,10 @@ var roleSpawner = {
             } else if (sumUpgrader < Memory.maxUpgraders) {
                 console.log("spawning upgrader");
                 var body = [];
-                for (var i = 1; i < (spawn.room.energyAvailable - 100) / 100; i++) {
+                for (var i = 1; i < (spawn.room.energyAvailable - 150) / 100; i++) {
                     body.push(WORK);
                 }
+                body.push(MOVE);
                 body.push(MOVE);
                 body.push(CARRY);
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
