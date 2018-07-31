@@ -46,7 +46,8 @@ var roleSpawner = {
             var role = sumHarvester < Memory.maxCreeps * Memory.harvesterPercentage ? 'harvester' : 'builder';
             spawn.spawnCreep([WORK, CARRY, MOVE], 'Worker' + Game.time, {
                 memory: {
-                    role: "harvester"
+                    role: "harvester",
+                    assignedRoom: spawn.room
                 }
             });
         } else if (Object.keys(Game.creeps).length <= Memory.maxCreeps && spawn.energy == spawn.energyCapacity && !spawn.spawning && spawn.room.energyAvailable == spawn.room.energyCapacityAvailable) {
@@ -75,7 +76,8 @@ var roleSpawner = {
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
                         role: "miner",
-                        targetSource: target
+                        targetSource: target,
+                        assignedRoom: spawn.room
                     }
                 });
             } else if (sumMiner < sumHauler || Object.keys(Game.creeps).length <= Memory.maxCreeps && (sumUpgrader + sumBuilder + sumMiner) / 2 < sumHauler) {
@@ -88,7 +90,8 @@ var roleSpawner = {
 
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
-                        role: "hauler"
+                        role: "hauler",
+                        assignedRoom: spawn.room
                     }
                 });
             } else if (sumBuilder < Memory.maxBuilders) {
@@ -101,7 +104,8 @@ var roleSpawner = {
                 body.push(CARRY);
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
-                        role: "builder"
+                        role: "builder",
+                        assignedRoom: spawn.room
                     }
                 });
             } else if (sumUpgrader < Memory.maxUpgraders) {
@@ -114,7 +118,8 @@ var roleSpawner = {
                 body.push(CARRY);
                 spawn.spawnCreep(body, 'Worker' + Game.time, {
                     memory: {
-                        role: "upgrader"
+                        role: "upgrader",
+                        assignedRoom: spawn.room
                     }
                 });
             }
