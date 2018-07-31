@@ -17,7 +17,8 @@ module.exports.loop = function () {
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
     if (!Memory.sources) Memory.sources = {};
     if (!Memory.Logging) Memory.Logging = {};
-
+    if(!Memory.Tickets) Memory.Tickets={};
+    
     // set number of available spots for miners on all sources
     for (var spawn in Game.spawns) {
         var sources = Game.spawns[spawn].room.find(FIND_SOURCES, {
