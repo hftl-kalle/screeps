@@ -33,13 +33,14 @@ var utilityTickets = {
         for(var key in Memory.Tickets){
             if(ticketAction &&Memory.Tickets[key].Action!=ticketAction) continue;
             var raiser= Game.getObjectById(key)||Game.spawns[key];
-
             var timeDiff= Game.time-Memory.Tickets[key].Time;
-            var cost= PathFinder.search(worker.pos,{pos:raiser.pos,range:1}).cost;
+
+            var 	xs = worker.pos.x - raiser.pos.x,ys = worker.pos.y - raiser.pos.y;		
+	        xs *= xs;
+	        ys *= ys;
+            var cost= Math.sqrt( xs + ys );
+
             var energyDiff=worker.carryCapacity-worker.carry.energy;
-            console.log("timeDiff "+timeDiff);
-            console.log("energyDiff "+energyDiff);
-            console.log("cost "+cost);
             if(bestTicket==null||currentBestNr>cost){
                 bestTicket = Memory.Tickets[key];
                 currentBestNr=cost;
@@ -52,6 +53,7 @@ var utilityTickets = {
     reportDone:function(ticketWorker){
         for(var key in Memory.Tickets){
             if(Memory.Tickets[key].ticketWorker==ticketWorker) {
+                Memory.Tickets[ticketRaiser]=null;
                 delete Memory.Tickets[key]; 
                 return true;
             }
@@ -60,6 +62,7 @@ var utilityTickets = {
     },
     removeTicket:function(ticketRaiser){
         if(Memory.Tickets[ticketRaiser]){
+            Memory.Tickets[ticketRaiser]=null;
             delete Memory.Tickets[ticketRaiser];
             return true;
         }
