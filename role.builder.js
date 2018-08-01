@@ -42,7 +42,7 @@ var roleBuilder = {
                             stroke: '#ffffff'
                         }
                     });
-                    creep.say('?? repair');
+                    // creep.say('?? repair');
                 }
             } else roleUpgrader.run(creep);
         }
