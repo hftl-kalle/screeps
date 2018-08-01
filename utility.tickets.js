@@ -14,7 +14,8 @@ var utilityTickets = {
                 delete Memory.Tickets[key];
                 continue;
             }
-            if (Memory.Tickets[key].Worker && !Game.getObjectById(Memory.Tickets[key].Worker)) Memory.Tickets[key].Worker = null;
+            //if (Memory.Tickets[key].Worker && !Game.getObjectById(Memory.Tickets[key].Worker)) Memory.Tickets[key].Worker = null;
+            if (Memory.Tickets[key].Worker) Memory.Tickets[key].Worker = null;
         }
     },
     getCurrentTicket: function (ticketWorker) {

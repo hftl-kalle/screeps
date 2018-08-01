@@ -31,7 +31,7 @@ var roleHauler = {
                     return;
                 }
                 var tryTransfer = creep.transfer(giveTarget, RESOURCE_ENERGY);
-                if (tryTransfer != ERR_NOT_IN_RANGE) console.log("TryTransfer " + tryTransfer);
+                //if (tryTransfer != ERR_NOT_IN_RANGE) console.log("TryTransfer " + tryTransfer);
                 if (tryTransfer == ERR_NOT_IN_RANGE) {
                     creep.moveTo(giveTarget, {
                         visualizePathStyle: {

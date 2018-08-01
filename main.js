@@ -11,14 +11,14 @@ var utilityTickets = require('utility.tickets');
 // test commit for creds
 module.exports.loop = function () {
     // declare gobals
-    Memory.maxBuilders = 4;
+    Memory.maxBuilders = 3;
     Memory.maxUpgraders = 3;
     Memory.maxCreeps = 21;
     Memory.harvesterPercentage = 0.6;
     if (!Memory.listOfEmptySources) Memory.listOfEmptySources = [];
     if (!Memory.sources) Memory.sources = {};
     if (!Memory.Logging) Memory.Logging = {};
-    if(!Memory.Tickets) Memory.Tickets={};
+    if (!Memory.Tickets) Memory.Tickets = {};
 
     // cleanup tickets
     utilityTickets.checkValidity();
@@ -73,7 +73,7 @@ module.exports.loop = function () {
 
     var containers = Game.spawns["Spawn1"].room.find(FIND_STRUCTURES, {
         filter: (structure) => {
-            return (structure.structureType == STRUCTURE_CONTAINER );
+            return (structure.structureType == STRUCTURE_CONTAINER);
         }
     });
     for (var i = 0; i < containers.length; i++) {
