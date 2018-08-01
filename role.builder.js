@@ -31,6 +31,9 @@ var roleBuilder = {
             while (targets.length > 0 && targets[0].structureType == STRUCTURE_WALL && targets[0].hits > 100000) {
                 targets.splice(0, 1);
             }
+            targets.sort(function (a, b) {
+                return a.hits - b.hits;
+            });
             if (targets.length > 0) {
                 var intent = creep.repair(targets[0])
                 if (intent == ERR_NOT_IN_RANGE || intent == ERR_NOT_ENOUGH_RESOURCES) {

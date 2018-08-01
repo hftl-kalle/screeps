@@ -33,6 +33,7 @@ var utilityTickets = {
         if (worker.carryCapacity == worker.carry.energy) ticketAction = "give";
         for (var key in Memory.Tickets) {
             if (ticketAction && Memory.Tickets[key].Action != ticketAction) continue;
+            // to continue or not to continue...
             if (Memory.Tickets[key].Worker || ticketAction && Memory.Tickets[key].Action != ticketAction) continue;
             var raiser = Game.getObjectById(key) || Game.spawns[key];
             var timeDiff = Game.time - Memory.Tickets[key].Time;
