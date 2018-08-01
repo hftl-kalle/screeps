@@ -32,7 +32,7 @@ var utilityTickets = {
         if (worker.carryCapacity == worker.carry.energy) ticketAction = "give";
         for (var key in Memory.Tickets) {
             if (ticketAction && Memory.Tickets[key].Action != ticketAction) continue;
-            //if(Memory.Tickets[key].Worker||ticketAction &&Memory.Tickets[key].Action!=ticketAction) continue;
+            if (Memory.Tickets[key].Worker || ticketAction && Memory.Tickets[key].Action != ticketAction) continue;
             var raiser = Game.getObjectById(key) || Game.spawns[key];
             var timeDiff = Game.time - Memory.Tickets[key].Time;
 
@@ -40,8 +40,8 @@ var utilityTickets = {
                 ys = worker.pos.y - raiser.pos.y;
             xs *= xs;
             ys *= ys;
-            var cost = Math.sqrt(xs + ys);
-
+            var moveCost = Math.sqrt(xs + ys);
+            var cost = moveCost - timeDiff;
             var energyDiff = worker.carryCapacity - worker.carry.energy;
             if (bestTicket == null || currentBestNr > cost) {
                 bestTicket = Memory.Tickets[key];
