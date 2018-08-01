@@ -10,10 +10,10 @@ var roleMiner = {
             structure: STRUCTURE_CONTAINER
         });
         if (creep.carry[RESOURCE_ENERGY] >= creep.carryCapacity * queueCapacity && containerAtPos == -1) {
-            utilityTickets.addTicket(creep.id,"take");
+            // utilityTickets.addTicket(creep.id,"take");
         }
 
-        var raisedTicket= utilityTickets.getRaisedTicket(creep.id);
+        var raisedTicket = utilityTickets.getRaisedTicket(creep.id);
         if (raisedTicket && raisedTicket.Worker) {
             if (creep.transfer(Game.getObjectById(raisedTicket.Worker), RESOURCE_ENERGY) == OK) {
                 utilityTickets.removeTicket(creep.id)

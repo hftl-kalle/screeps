@@ -8,9 +8,9 @@ var roleBuilder = {
     run: function (creep) {
         var raiseCapacity = 0.2
 
-        if (creep.carry[RESOURCE_ENERGY] < creep.carryCapacity * raiseCapacity ) {
-            utilityTickets.addTicket(creep.id,"give")
-        }
+        if (creep.carry[RESOURCE_ENERGY] < creep.carryCapacity * raiseCapacity) {
+            utilityTickets.addTicket(creep.id, "give")
+        } else if (creep.carry[RESOURCE_ENERGY] == creep.carryCapacity) utilityTickets.removeTicket(creep.id);
 
         var targets = creep.memory.assignedRoom.find(FIND_CONSTRUCTION_SITES);
         if (targets.length) {
