@@ -6,6 +6,7 @@ var roleHauler = require('role.hauler');
 var roleMiner = require('role.miner');
 var roleExtention = require('role.extension');
 var roleContainer = require('role.container');
+var roleTower = require('role.tower');
 var utilityTickets = require('utility.tickets');
 
 // test commit for creds
@@ -62,6 +63,7 @@ module.exports.loop = function () {
     // set all roles to units
     roleSpawner.run(Game.spawns["Spawn1"]);
 
+    //extensions
     var extensions = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION);
@@ -71,6 +73,7 @@ module.exports.loop = function () {
         roleExtention.run(extensions[i]);
     }
 
+    // containers
     var containers = Game.spawns["Spawn1"].room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_CONTAINER);
@@ -79,6 +82,17 @@ module.exports.loop = function () {
     for (var i = 0; i < containers.length; i++) {
         roleContainer.run(containers[i]);
     }
+
+    // towers
+    var towers = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_TOWER);
+        }
+    });
+    for (var i = 0; i < towers.length; i++) {
+        roleTower.run(towers[i]);
+    }
+
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
